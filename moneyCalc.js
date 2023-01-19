@@ -1,3 +1,17 @@
+function calculateMoney(coins, wordArr, moneyAmount) {
+    let coinString;
+    if ((coins % 100 > 10) && (coins % 100 < 15)) {
+        coinString = `${moneyAmount} ${wordArr[0]}`;
+    } else if (coins % 10 === 1) {
+        coinString = `${moneyAmount} ${wordArr[1]}`;
+    } else if ((coins % 10 > 1) && (coins % 10 < 5)) {
+        coinString = `${moneyAmount} ${wordArr[2]}`;
+    } else {
+        coinString = `${moneyAmount} ${wordArr[0]}`;
+    }
+    return coinString;
+}
+
 function getMoneyString(coins) {
     if (isNaN(coins)) {
         return "Неверная строка";
@@ -5,27 +19,10 @@ function getMoneyString(coins) {
     if (coins < 0) {
         return "Отрицательное число";
     }
-    let coinString, rubString;
-    let rubles = parseInt(coins/100);
-    if ((coins % 100 === 11) || (coins % 100 == 12) || (coins % 100 == 13) || (coins % 100 == 14)) {
-        coinString = `${coins % 100} копеек`;
-    } else if (coins % 10 == 1) {
-        coinString = `${coins % 100} копейка`;
-    } else if ((coins % 10 == 2) || (coins % 10 == 3) || (coins % 10 == 4)) {
-        coinString = `${coins % 100} копейки`;
-    } else {
-        coinString = `${coins % 100} копеек`; 
-    }
-    if ((rubles % 100 === 11) || (rubles % 100 == 12) || (rubles % 100 == 13) || (rubles % 100 == 14)) {
-        coinString = `${rubles} рублей`;
-    } else if (rubles % 10 == 1) {
-        rubString = `${rubles} рубль`;
-    } else if ((rubles % 10 == 2) || (rubles % 10 == 3) || (rubles % 10 == 4)) {
-        rubString = `${rubles} рубля`;
-    } else {
-        rubString = `${rubles} рублей`; 
-    }
-    return rubString + " " + coinString;
+    let finalCoins = coins % 100;
+    let rubles = parseInt(coins / 100);
+    return  calculateMoney(rubles,["рублей", "рубль", "рубля"], rubles) +
+        " " + calculateMoney(coins, ["копеек", "копейка", "копейки"], finalCoins);
 }
 console.log(getMoneyString(100));
 console.log(getMoneyString(31));
